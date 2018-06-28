@@ -1,0 +1,238 @@
+---
+title: "Non linear fitting \n(worksheet)"
+author: "Etienne Low-Décarie"
+date: '2018-01-31'
+output: 
+  html_document: 
+    toc: yes
+---
+
+#Housekeeping
+
+Load required and suggested packages
+```{r echo=FALSE, message=FALSE}
+require(ggplot2)
+require(cowplot)
+require(dplyr)
+```
+
+# Examples
+
+## Exponential growth
+
+\[N_t = N_0e^{(rt)}\]
+
+```{r echo=FALSE}
+exp_growth <- function(N0=10,
+                       r=1.1,
+                       t=0:10){
+  N = N0 * exp(r*t)
+}
+
+p <- qplot(x=0:10, 
+      y=exp_growth(t=0:10),
+      xlab="Time",
+      ylab="N")+
+  geom_line()
+
+print(p)
+```
+
+## Logistic growth
+
+\[\frac{dN}{dt} = rN(\frac{K-N}{K})\]
+
+
+\[N_t = \frac{K}{1+(\frac{K}{N_0}-1)e^{(-rt)}}\]
+
+```{r echo=FALSE}
+logistic_growth <- function(N0=10,
+                       r=1.1,
+                       K=4000,
+                       t=0:10){
+  N = K/(1+(K/N0-1)*exp(-r*t))
+}
+
+p <- qplot(x=0:15,
+      y=logistic_growth(t=0:15),
+      xlab="Time",
+      ylab="N")+
+  geom_line()
+
+print(p)
+```
+
+## Rate of growth in a logistic equation
+
+```{r echo=FALSE}
+p <- qplot(x=logistic_growth(t=0:15),
+      y=lead(logistic_growth(t=0:15))-logistic_growth(t=0:15),
+      xlab="N(t)",
+      ylab="N(t+1)-N(t)")+
+  geom_line()
+
+print(p)
+```
+
+
+Quadratic equation
+
+\[\Delta N = r(K-\alpha N)N\]
+
+```{r echo=FALSE}
+logistic_rate_growth <- function(N0=10,
+                                 K=4000,
+                       r=1.1,
+                       alpha=0.1,
+                       N=0:4000){
+  delta_N = r*N-r*alpha*N^2
+}
+
+p <- qplot(x=0:4000,
+      y=logistic_rate_growth(N=0:4000),
+      xlab="N",
+      ylab="delta_N")+
+  geom_line()
+
+print(p)
+```
+
+## Thermal response
+
+
+
+
+# Simulating data
+
+## Why simulated data
+
+## Writing a function
+
+### Exponential growth
+
+```{r}
+exp_growth <- function(N0=100,
+                       lambda=1.5,
+                       t=0:10){
+  N = N0 * lambda^t
+}
+```
+
+## Adding noise
+
+```{r}
+set.seed(20)
+```
+
+
+# Fitting the model to data
+
+## Linearizable models
+
+### Exponential growth
+
+```{r}
+p <- qplot(x=0:10, 
+      y=log(exp_growth(t=0:10)),
+      xlab="Time",
+      ylab="log(N)")+
+  geom_line()
+
+print(p)
+```
+
+## Logistic growth
+
+Does not work for logistic
+
+```{r echo=FALSE}
+
+p1 <- qplot(x=0:15,
+      y=log(logistic_growth(t=0:15)),
+      xlab="Time",
+      ylab="log(N)")+
+  geom_line()
+
+
+p2 <- qplot(x=log(0:15),
+      y=log(logistic_growth(t=0:15)),
+      xlab="log(Time)",
+      ylab="log(N)")+
+  geom_line()
+
+p3 <- qplot(x=log(0:15),
+      y=logistic_growth(t=0:15),
+      xlab="log(Time)",
+      ylab="N")+
+  geom_line()
+
+plot_grid(p1)
+```
+
+
+
+##  Using linear fitting for polynomials
+
+```{r}
+delta_N <- data.frame(Nt=logistic_growth(t=0:15),                      delta_N=lead(logistic_growth(t=0:15))-logistic_growth(t=0:15))
+
+r <- 1.1
+K <- 4000
+
+fit <- lm(delta_N~Nt+I(Nt^2),
+          data=delta_N)
+
+
+```
+
+
+
+addition, subtraction, multiplication, and non-negative integer exponents of variables. 
+
+https://stackoverflow.com/questions/17457884/using-lmpoly-to-get-formula-coeff
+
+## Non linear least squares
+
+## Likelihood approach
+
+## 
+
+# Starting values
+
+## Manual
+
+## Self start models
+
+# Robust fitting
+
+# Assessing error
+
+What is the confidence interval around each parameter?
+
+## Error across replicates
+
+## Boostrapping
+
+## Model sensitivity
+
+### Variance-covariance and MCMC
+
+
+
+# Next steps (or what we won't cover)
+
+## Mixed effect non-linear models
+
+## Multi-demensional and equation systems
+
+## Bayesian approaches
+
+# Bestiary of packages
+
+# References and ressources
+
+http://rstudio-pubs-static.s3.amazonaws.com/28730_850cac53898b45da8050f7f622d48927.html
+
+https://rstudio-pubs-static.s3.amazonaws.com/252603_9c6a71110dc74cc7832f154449235f7f.html
+
+https://www.r-bloggers.com/learning-r-parameter-fitting-for-models-involving-differential-equations/

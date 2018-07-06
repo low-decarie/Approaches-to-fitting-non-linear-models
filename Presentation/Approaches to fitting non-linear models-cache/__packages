@@ -1,0 +1,11 @@
+base
+knitr
+NISTnls
+animation
+segmented
+minpack.lm
+broom
+ggplot2
+dplyr
+bindrcpp
+bbmle

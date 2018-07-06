@@ -1,9 +1,0 @@
----
-title: "Readme"
-author: "Etienne Low-Décarie"
-date: '2018-06-28'
-output: html_document
----
-
-Presentation can be viewed at :
-https://low-decarie.github.io/Approaches-to-fitting-non-linear-models/

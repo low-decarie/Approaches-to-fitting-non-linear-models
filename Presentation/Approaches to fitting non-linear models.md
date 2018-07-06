@@ -1,11 +1,14 @@
 Approaches to fitting non-linear models
 ===
 author: Etienne Low-Décarie
-date: 12 July 2018
-autosize: true
+date: 13 July 2018
+width: 1280
+height: 800
 
 Gettint to know each other
 ===
+
+
 
 <div align="center">
 You?
@@ -24,37 +27,48 @@ Workshop
 Schedule
 ===
 
+<small>
 - least-squares optimisation
 - linear models of curves and linearization
 - **~10:30AM - 30 minute coffee break**
 - non-linear least squares
 - **~12:30PM - 60 minute lunch break**
+</small>
 
 ***
 
+<small>
 - maximum likelihood approaches
 - expansions
 - other approaches to estimating prediction error
   - boostrapping
   - Monte-Carlo simulations
 - **~15:30AM - 30 minute break**
-- Dojo and/or work on your experiment
-  
+- Dojo and/or work on your data
+</small>
+ 
 Data sets
 ===
 
 `agridat::carmer.density`  
-`FSA::Ecoli`
+`FSA::Ecoli`  
+`?nls`
 
 a package dedicated to this kind of datasets:
 
 ```r
 require(NISTnls)
 help(package="NISTnls")
+```
+
+***
+
+
+```r
 plot(Thurber)
 ```
 
-![plot of chunk unnamed-chunk-1](Approaches to fitting non-linear models-figure/unnamed-chunk-1-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
 
 Simulating your data
 ===
@@ -68,7 +82,7 @@ Good for learning and testing:
 Simulating your data : quadratic
 ===
 
-\[\Delta N = r(K-\alpha N)N\]
+\[y=ax^2+bx+cx+error\]
 
 Curved but linear in parameters
 
@@ -87,7 +101,7 @@ each term is either a constant or the product of a parameter and a predictor var
 plot(quadratic_data)
 ```
 
-![plot of chunk unnamed-chunk-3](Approaches to fitting non-linear models-figure/unnamed-chunk-3-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
 
 
 
@@ -114,13 +128,16 @@ here, *e* is raised to the power of the product of a parameter and a predictor v
 plot(exp_data)
 ```
 
-![plot of chunk unnamed-chunk-5](Approaches to fitting non-linear models-figure/unnamed-chunk-5-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
 
 
 Simulating your data
 ===
 
 curved and non-linear in parameters: gaussian function
+
+\[y = a*e^{-\frac{(x-b)^2}{2*c^2}}\]
+
 
 ```r
 x <- 1:100
@@ -136,13 +153,10 @@ here, the square is taken of difference between a parameter and a predictor vari
 plot(gaussian_data)
 ```
 
-![plot of chunk unnamed-chunk-7](Approaches to fitting non-linear models-figure/unnamed-chunk-7-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 Simulating your data : logistic growth
 ===
-
-\[\frac{dN}{dt} = rN(\frac{K-N}{K})\]
-
 
 \[N_t = \frac{K}{1+(\frac{K}{N_0}-1)e^{(-rt)}}\]
 
@@ -162,13 +176,16 @@ logistic_growth_data <- data.frame(x=t,
 plot(logistic_growth_data)
 ```
 
-![plot of chunk unnamed-chunk-9](Approaches to fitting non-linear models-figure/unnamed-chunk-9-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
 
 
 Simulating your data
 ===
 
 Convoluted (many parameters) : Fourier 
+
+\[a*cos(x + b) + (c * cos(d*x + e) + f  )\]
+
 
 ```r
 x <- 1:100
@@ -184,7 +201,7 @@ plot(conv2_data)
 lines(conv2_data)
 ```
 
-![plot of chunk unnamed-chunk-11](Approaches to fitting non-linear models-figure/unnamed-chunk-11-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" style="display: block; margin: auto;" />
   
 Least-squares optimisation
 ===
@@ -215,13 +232,9 @@ saveGIF(least.squares(),
 ![least squares animation](least_squares.gif)
 
 
-Least-squares optimisation
+Least-squares optimisation multiple dimensions
 ===
 
-```r
-saveGIF(grad.desc(),
-         movie.name="gradient_descent.gif")
-```
 
 ```
 [1] TRUE
@@ -250,7 +263,7 @@ plot(cells~days,
 lines(FSA::Ecoli$days, predict(lm_fit), col="red")
 ```
 
-![plot of chunk unnamed-chunk-14](Approaches to fitting non-linear models-figure/unnamed-chunk-14-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto;" />
 
 Linearization : segmentation
 ===
@@ -262,7 +275,7 @@ plot(cells~days,
 lines(FSA::Ecoli$days, predict(segmented_fit), col="red")
 ```
 
-![plot of chunk unnamed-chunk-15](Approaches to fitting non-linear models-figure/unnamed-chunk-15-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-16-1.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" style="display: block; margin: auto;" />
 
 Linearization : segmentation
 ===
@@ -280,20 +293,20 @@ segmented.lm(obj = lm_fit)
 
 Estimated Break-Point(s):
    Est. St.Err 
- 5.965  0.714 
+ 6.031  1.155 
 
 Meaningful coefficients of the linear terms:
             Estimate Std. Error t value Pr(>|t|)   
-(Intercept)  -2.0016     0.6794  -2.946  0.04214 * 
-days          1.3208     0.2049   6.447  0.00298 **
-U1.days      -1.2670     0.5018  -2.525       NA   
+(Intercept)  -1.9839     0.6019  -3.296  0.03005 * 
+days          1.3131     0.1546   8.496  0.00105 **
+U1.days      -1.2943     0.9274  -1.396       NA   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.6478 on 4 degrees of freedom
-Multiple R-Squared: 0.9655,  Adjusted R-squared: 0.9397 
+Residual standard error: 0.6466 on 4 degrees of freedom
+Multiple R-Squared: 0.9657,  Adjusted R-squared: 0.9399 
 
-Convergence attained in 2 iterations with relative change 0 
+Convergence attained in 2 iterations with relative change -9.370854e-16 
 ```
 
 Linearization: transformation
@@ -304,7 +317,7 @@ Linearization: transformation
 plot(log(y)~x, data=exp_data)
 ```
 
-![plot of chunk unnamed-chunk-17](Approaches to fitting non-linear models-figure/unnamed-chunk-17-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-18-1.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" style="display: block; margin: auto;" />
 
 Linearization: transformation
 ===
@@ -317,7 +330,7 @@ plot(exp_data)
 lines(exp_data$x, exp(predict(lm_exp_fit)), col="red")
 ```
 
-![plot of chunk unnamed-chunk-18](Approaches to fitting non-linear models-figure/unnamed-chunk-18-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-19-1.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" style="display: block; margin: auto;" />
 
 Linearization: transformation
 ===
@@ -329,7 +342,7 @@ par(mfrow=c(2,2))
 plot(lm_exp_fit)
 ```
 
-![plot of chunk unnamed-chunk-19](Approaches to fitting non-linear models-figure/unnamed-chunk-19-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-20-1.png" title="plot of chunk unnamed-chunk-20" alt="plot of chunk unnamed-chunk-20" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))
@@ -345,7 +358,7 @@ plot(quadratic_data)
 lines(quadratic_data$x, predict(lm_quadratic_fit), col="red")
 ```
 
-![plot of chunk unnamed-chunk-20](Approaches to fitting non-linear models-figure/unnamed-chunk-20-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-21-1.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" style="display: block; margin: auto;" />
 
 Linearization: curved linear models I()
 ===
@@ -357,7 +370,7 @@ par(mfrow=c(2,2))
 plot(lm_quadratic_fit)
 ```
 
-![plot of chunk unnamed-chunk-21](Approaches to fitting non-linear models-figure/unnamed-chunk-21-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-22-1.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))
@@ -395,15 +408,15 @@ Formula: y ~ a * exp(b * x)
 
 Parameters:
    Estimate Std. Error t value Pr(>|t|)    
-a 2.1006416  0.0716419   29.32   <2e-16 ***
-b 0.0293758  0.0003998   73.47   <2e-16 ***
+a 2.0365424  0.0668039   30.48   <2e-16 ***
+b 0.0297061  0.0003839   77.38   <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.071 on 98 degrees of freedom
+Residual standard error: 1.016 on 98 degrees of freedom
 
 Number of iterations to convergence: 14 
-Achieved convergence tolerance: 4.304e-10
+Achieved convergence tolerance: 4.427e-09
 ```
 
 ***
@@ -414,7 +427,7 @@ plot(exp_data)
 lines(exp_data$x, predict(nls_exp_fit), col="red")
 ```
 
-![plot of chunk unnamed-chunk-23](Approaches to fitting non-linear models-figure/unnamed-chunk-23-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-24-1.png" title="plot of chunk unnamed-chunk-24" alt="plot of chunk unnamed-chunk-24" style="display: block; margin: auto;" />
 
 
 
@@ -436,16 +449,16 @@ Formula: y ~ (K * P0 * exp(r * x))/(K + P0 * (exp(r * x) - 1))
 
 Parameters:
     Estimate Std. Error t value Pr(>|t|)    
-P0  4.391774   0.482313   9.106 1.14e-14 ***
-r   0.084992   0.003316  25.628  < 2e-16 ***
-K  98.109536   0.989566  99.144  < 2e-16 ***
+P0  6.043778   0.590087   10.24   <2e-16 ***
+r   0.075126   0.003024   24.84   <2e-16 ***
+K  99.036271   1.138106   87.02   <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 4.716 on 97 degrees of freedom
+Residual standard error: 4.847 on 97 degrees of freedom
 
-Number of iterations to convergence: 9 
-Achieved convergence tolerance: 3.16e-06
+Number of iterations to convergence: 7 
+Achieved convergence tolerance: 2.376e-07
 ```
 
 ***
@@ -456,7 +469,7 @@ plot(logistic_growth_data)
 lines(logistic_growth_data$x, predict(nls_logistic_fit), col="red")
 ```
 
-![plot of chunk unnamed-chunk-25](Approaches to fitting non-linear models-figure/unnamed-chunk-25-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-26-1.png" title="plot of chunk unnamed-chunk-26" alt="plot of chunk unnamed-chunk-26" style="display: block; margin: auto;" />
 
 
 Starting values
@@ -471,7 +484,7 @@ nls_exp_fit <- nls(formula = y~ a*exp(b*x),
 ```
 
 ```
-Error in nls(formula = y ~ a * exp(b * x), start = list(a = 1, b = 0.4), : number of iterations exceeded maximum of 50
+Error in nls(formula = y ~ a * exp(b * x), start = list(a = 1, b = 0.4), : step factor 0.000488281 reduced below 'minFactor' of 0.000976562
 ```
 
 ***
@@ -492,46 +505,6 @@ Starting values
 
 "robust" algorithms : [Levenberg-Marquardt](https://en.wikipedia.org/wiki/Levenberg–Marquardt_algorithm)
 
-```r
-require(minpack.lm)
-robust_nls_exp_fit <- nlsLM(formula = y~ a*exp(b*x),
-                   start = list(a=1,b=0.4),
-                   data=exp_data)
-summary(robust_nls_exp_fit)
-```
-
-```
-
-Formula: y ~ a * exp(b * x)
-
-Parameters:
-   Estimate Std. Error t value Pr(>|t|)    
-a 2.387e-14  1.943e-13   0.123    0.902    
-b 4.000e-01  8.207e-02   4.874 4.22e-06 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 756.4 on 98 degrees of freedom
-
-Number of iterations to convergence: 2 
-Achieved convergence tolerance: 1.49e-08
-```
-
-***
-
-
-```r
-plot(exp_data)
-lines(exp_data$x, predict(robust_nls_exp_fit), col="red")
-```
-
-![plot of chunk unnamed-chunk-29](Approaches to fitting non-linear models-figure/unnamed-chunk-29-1.png)
-
-Starting values
-===
-
-"robust" algorithms : [Levenberg-Marquardt](https://en.wikipedia.org/wiki/Levenberg–Marquardt_algorithm)
-
 
 ```r
 nls_logistic_fit <- nlsLM(formula = y~(K*P0*exp(r*x))/(K+P0*(exp(r*x)-1)),
@@ -546,15 +519,15 @@ Formula: y ~ (K * P0 * exp(r * x))/(K + P0 * (exp(r * x) - 1))
 
 Parameters:
     Estimate Std. Error t value Pr(>|t|)    
-P0  4.391762   0.482312   9.106 1.14e-14 ***
-r   0.084992   0.003316  25.628  < 2e-16 ***
-K  98.109523   0.989565  99.144  < 2e-16 ***
+P0  6.043778   0.590087   10.24   <2e-16 ***
+r   0.075126   0.003024   24.84   <2e-16 ***
+K  99.036273   1.138106   87.02   <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 4.716 on 97 degrees of freedom
+Residual standard error: 4.847 on 97 degrees of freedom
 
-Number of iterations to convergence: 36 
+Number of iterations to convergence: 32 
 Achieved convergence tolerance: 1.49e-08
 ```
 
@@ -566,7 +539,65 @@ plot(logistic_growth_data)
 lines(logistic_growth_data$x, predict(nls_logistic_fit), col="red")
 ```
 
-![plot of chunk unnamed-chunk-31](Approaches to fitting non-linear models-figure/unnamed-chunk-31-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-30-1.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
+
+
+
+
+Starting values
+===
+
+"robust" algorithms : [Levenberg-Marquardt](https://en.wikipedia.org/wiki/Levenberg–Marquardt_algorithm)
+
+```r
+require(minpack.lm)
+robust_nls_exp_fit <- nlsLM(formula = y~ a*exp(b*x),
+                   start = list(a=1,b=0.4),
+                   data=exp_data)
+summary(robust_nls_exp_fit)
+```
+
+```
+
+Formula: y ~ a * exp(b * x)
+
+Parameters:
+   Estimate Std. Error t value Pr(>|t|)    
+a 2.124e-15  1.574e-14   0.135    0.893    
+b 4.000e-01  7.473e-02   5.352 5.71e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 61.28 on 98 degrees of freedom
+
+Number of iterations to convergence: 2 
+Achieved convergence tolerance: 1.49e-08
+```
+
+***
+
+
+```r
+plot(exp_data)
+lines(exp_data$x, predict(robust_nls_exp_fit), col="red")
+```
+
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-32-1.png" title="plot of chunk unnamed-chunk-32" alt="plot of chunk unnamed-chunk-32" style="display: block; margin: auto;" />
+
+
+Spurious fits
+===
+
+<div align="center">
+<img src="https://www.researchgate.net/profile/Sascha_Krenek/publication/221716210/figure/fig1/AS:305632667291651@1449879914905/General-shape-of-a-thermal-performance-curve-Relationship-between-environmental.png" width=400 height=300>
+</div>
+
+***
+
+![Perceived optimal temperature correlated with measurement range](./thomas_mean_temp.pdf)
+
+Problems with spurious fits:  
+[Predictions of response to temperature are contingent on model choice and data quality](https://www.onlinelibrary.wiley.com/doi/full/10.1002/ece3.3576#references-section)
 
 
 Algorithms
@@ -582,6 +613,10 @@ nlsLM
 
 nls2:
 - brute-force/grid search
+
+
+
+others?
 
 
 Starting values
@@ -601,16 +636,16 @@ Formula: y ~ SSlogis(x, Asym, xmid, scal)
 
 Parameters:
      Estimate Std. Error t value Pr(>|t|)    
-Asym  98.1095     0.9896   99.14   <2e-16 ***
-xmid  36.0098     0.5345   67.38   <2e-16 ***
-scal  11.7658     0.4591   25.63   <2e-16 ***
+Asym  99.0363     1.1381   87.02   <2e-16 ***
+xmid  36.3856     0.6241   58.30   <2e-16 ***
+scal  13.3111     0.5358   24.84   <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 4.716 on 97 degrees of freedom
+Residual standard error: 4.847 on 97 degrees of freedom
 
 Number of iterations to convergence: 0 
-Achieved convergence tolerance: 2.602e-06
+Achieved convergence tolerance: 1.639e-07
 ```
 
 ***
@@ -621,13 +656,13 @@ plot(logistic_growth_data)
 lines(logistic_growth_data$x, predict(nls_logistic_fit), col="red")
 ```
 
-![plot of chunk unnamed-chunk-33](Approaches to fitting non-linear models-figure/unnamed-chunk-33-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-34-1.png" title="plot of chunk unnamed-chunk-34" alt="plot of chunk unnamed-chunk-34" style="display: block; margin: auto;" />
 
 
 Challenge
 ===
 
-- Use nls and nlsLM to fit:
+- Use nls or nlsLM to fit:
   - `quadratic_data`
   - `gaussian_data`
   - `conv2_data`
@@ -636,6 +671,11 @@ Challenge
   - reduce the quality of the data and repeat the cross-fitting
     - increase error
     - decrease number of data points
+  - can you tell which process produced the data from the model fit?
+  
+
+Importance of data quality, quantity and difficulties in differentiating between models:  
+[Predictions of response to temperature are contingent on model choice and data quality](https://www.onlinelibrary.wiley.com/doi/full/10.1002/ece3.3576#references-section)
     
     
 Extracting data from your model
@@ -648,7 +688,7 @@ coef(nls_logistic_fit)
 
 ```
          P0           r           K 
- 4.39176171  0.08499223 98.10952309 
+ 6.04377811  0.07512554 99.03627336 
 ```
 
 ```r
@@ -657,14 +697,41 @@ confint(nls_logistic_fit)
 
 ```
           2.5%        97.5%
-P0  3.49848855   5.39989204
-r   0.07871143   0.09182942
-K  96.19124980 100.12396569
+P0  4.93031429   7.27605164
+r   0.06934285   0.08138517
+K  96.84853945 101.37602395
+```
+
+***
+
+
+```r
+AIC(nls_logistic_fit)
+```
+
+```
+[1] 604.4305
+```
+
+```r
+BIC(nls_logistic_fit)
+```
+
+```
+[1] 614.8512
+```
+
+```r
+logLik(nls_logistic_fit)
+```
+
+```
+'log Lik.' -298.2152 (df=4)
 ```
 ...
 
 
-Extracting data from your model the **tidy** way
+Extracting data from your model the tidy way
 ===
 
 
@@ -679,7 +746,7 @@ p <- qplot(data=nls_logistic_augment,
 ```
 
 
-Extracting data from your model the ,<\b>tidy<\b> way
+Extracting data from your model the tidy way
 ===
 
 Create more complicated dataset
@@ -710,15 +777,15 @@ group_fit
 # Groups:   treatment [2]
   treatment term  estimate std.error statistic  p.value
   <chr>     <chr>    <dbl>     <dbl>     <dbl>    <dbl>
-1 A         Asym     104.      1.05       99.4 2.09e-99
-2 A         xmid      34.6     0.552      62.7 2.48e-80
-3 A         scal      13.0     0.482      26.9 8.81e-47
-4 B         Asym      98.1     0.990      99.1 2.65e-99
-5 B         xmid      36.0     0.534      67.4 2.88e-83
-6 B         scal      11.8     0.459      25.6 5.61e-45
+1 A         Asym     105.      1.23       85.6 3.41e-93
+2 A         xmid      35.0     0.656      53.3 1.14e-73
+3 A         scal      14.6     0.574      25.5 9.09e-45
+4 B         Asym      99.0     1.14       87.0 7.21e-94
+5 B         xmid      36.4     0.624      58.3 2.55e-77
+6 B         scal      13.3     0.536      24.8 7.70e-44
 ```
 
-Extracting data from your model the ,<\b>tidy<\b> way
+Extracting data from your model the tidy way
 ===
 
 
@@ -734,8 +801,8 @@ group_fit
 # Groups:   treatment [2]
   treatment sigma isConv    finTol logLik   AIC   BIC deviance df.residual
   <chr>     <dbl> <lgl>      <dbl>  <dbl> <dbl> <dbl>    <dbl>       <int>
-1 A          4.72 TRUE     6.93e-7  -295.  599.  609.    2159.          97
-2 B          4.72 TRUE     2.60e-6  -295.  599.  609.    2157.          97
+1 A          4.89 TRUE     3.46e-6  -299.  606.  617.    2324.          97
+2 B          4.85 TRUE     1.64e-7  -298.  604.  615.    2279.          97
 ```
 
 Likelihood approach
@@ -794,7 +861,52 @@ lines(logistic_growth_data$x,
       col='red')
 ```
 
-![plot of chunk unnamed-chunk-41](Approaches to fitting non-linear models-figure/unnamed-chunk-41-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-43-1.png" title="plot of chunk unnamed-chunk-43" alt="plot of chunk unnamed-chunk-43" style="display: block; margin: auto;" />
+
+
+Mle (less manual)
+===
+
+Output a model object 
+-mle  
+-mle2{bbmle} 
+
+using formula in mle
+
+```r
+require(bbmle)
+# To prevent issues with x variable
+logistic_growth_data_mle <- data.frame(Nt_measured=logistic_growth_data$y,
+           Time=as.numeric(logistic_growth_data$x))
+
+mle_norm_fit<-mle2(start=list(K=110, r=0.5, N0=15, st.dev=0.01),
+           minuslogl=Nt_measured~dnorm(mean=(K*N0*exp(r*Time) ) / 
+                                         (K + N0 * (exp(r*Time)-1)), sd=st.dev),
+           data=logistic_growth_data_mle)
+```
+
+***
+
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-45-1.png" title="plot of chunk unnamed-chunk-45" alt="plot of chunk unnamed-chunk-45" style="display: block; margin: auto;" />
+
+Algorithms
+===
+
+- optim  
+  - Nelder-Mead [default...slow?]
+  - BFGS
+  - CG
+  - L-BFGS-B [box-constrained optimizatio]
+  - SANN
+  - Brent [1D]
+  
+
+  
+- mle2
+  -nlm
+  - nlminb [PORT]
+  - constrOptim
+  - optimx{optimx}
 
 Expansions
 ===
@@ -803,15 +915,16 @@ Expansions including:
   - random factors / mixed effects
   - weighted regressions
   - ...
-Can be done using:
-lme4::nlmer
-nlme:nlme
+Can be done using: 
+- lme4::nlmer
+- nlme:nlme
 
 
-Challenge
+Challenges
 ===
 
-- Simulated logistic growth with non-normal error (more logical, eg. logit?) and use mle to fit the new data
+- Simulated logistic growth with non-normal error and use mle to fit the new data
+- Use mle to fit any of the simulated data sets (Fourier?!)
 
 
 
@@ -836,12 +949,12 @@ head(boot_data)
 # Groups:   replicate [2]
   replicate term  estimate std.error statistic  p.value
       <int> <chr>    <dbl>     <dbl>     <dbl>    <dbl>
-1         1 Asym      98.2     1.05       93.9 5.01e-97
-2         1 xmid      36.1     0.664      54.3 1.94e-74
-3         1 scal      12.2     0.482      25.3 1.47e-44
-4         2 Asym      98.5     1.01       97.8 9.52e-99
-5         2 xmid      36.4     0.613      59.4 4.35e-78
-6         2 scal      11.8     0.471      25.2 2.73e-44
+1         1 Asym      96.6     1.11       86.9 7.80e-94
+2         1 xmid      36.5     0.598      61.1 3.00e-79
+3         1 scal      12.7     0.501      25.3 1.49e-44
+4         2 Asym      99.9     1.27       78.6 1.24e-89
+5         2 xmid      36.6     0.691      53.0 2.01e-73
+6         2 scal      13.6     0.583      23.3 1.46e-41
 ```
 
 
@@ -859,9 +972,9 @@ boot_data %>% group_by(term) %>% summarize(low=quantile(estimate, 0.05 / 2),
 # A tibble: 3 x 3
   term    low  high
   <chr> <dbl> <dbl>
-1 Asym   96.5 100.0
-2 scal   11.0  12.6
-3 xmid   34.9  37.0
+1 Asym   96.6 101. 
+2 scal   12.1  14.4
+3 xmid   35.3  37.5
 ```
 
 Estimating prediction error : boostrapping
@@ -891,8 +1004,8 @@ boot_data %>% group_by(term) %>%
 # A tibble: 2 x 3
   term        low     high
   <chr>     <dbl>    <dbl>
-1 a     -1.56e-14 2.52e-10
-2 b      2.66e- 1 4.00e- 1
+1 a     -2.65e-14 6.50e-10
+2 b      2.56e- 1 4.00e- 1
 ```
 
 Estimating prediction error : boostrapping
@@ -920,7 +1033,7 @@ p <- qplot(data=boot_data_aug,
 print(p)
 ```
 
-![plot of chunk unnamed-chunk-46](Approaches to fitting non-linear models-figure/unnamed-chunk-46-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-50-1.png" title="plot of chunk unnamed-chunk-50" alt="plot of chunk unnamed-chunk-50" style="display: block; margin: auto;" />
 
 
 Estimating prediction error :  Monte-Carlo simulations
@@ -948,7 +1061,7 @@ lines(logistic_growth_data$x,
       mc_predicted[,"Sim.97.5%"], col='red')
 ```
 
-![plot of chunk unnamed-chunk-48](Approaches to fitting non-linear models-figure/unnamed-chunk-48-1.png)
+<img src="Approaches to fitting non-linear models-figure/unnamed-chunk-52-1.png" title="plot of chunk unnamed-chunk-52" alt="plot of chunk unnamed-chunk-52" style="display: block; margin: auto;" />
 
 Estimating prediction error :  Monte-Carlo simulations
 === 
@@ -958,6 +1071,8 @@ Issues?
 
 Next steps
 ===
+
+ 
 
 - brms : Bayesian generalized multivariate non-linear multilevel models using Stan
   - great explanations in vignette
@@ -975,3 +1090,38 @@ References and ressources
 [NCEAS non-linear modeling working group](https://groups.nceas.ucsb.edu/non-linear-modeling)
 
 [similar tutorial](http://rstudio-pubs-static.s3.amazonaws.com/28730_850cac53898b45da8050f7f622d48927.html)
+
+
+
+Dojo
+===
+
+Dojo: deliberate practice
+
+- pair/team coding
+
+Alternative: pair/team coding on each other's data (turns focusing on each experiment in the team).
+
+![dojo gif](https://media2.giphy.com/media/GbICzVGyMNqP6/giphy.gif)
+
+
+Dojo 1
+===
+
+![Figure 1 compare equations](Figure 1 compare equations.pdf)
+
+***
+
+- Translate some of the funcitons in the [temperatureresponse package](https://github.com/low-decarie/temperatureresponse) to use mle approach or other fitting algorithsms
+- Can you differentiate between models/equations using these other approaches?
+  - using data in [biotraits](http://biotraits.ucla.edu)
+  - using data in publication associated with the package
+
+
+Dojo 2
+===
+
+- Explore high-throuput fitting on non linear relationships in toxicology data  
+[CEBS Study Data Downloads](https://manticore.niehs.nih.gov/ftp)
+
+- Can you deal with not knowing the shape of the relationship a prioir?

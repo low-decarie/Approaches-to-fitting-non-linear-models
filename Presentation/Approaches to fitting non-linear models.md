@@ -1102,7 +1102,7 @@ Dojo: deliberate practice
 
 Alternative: pair/team coding on each other's data (turns focusing on each experiment in the team).
 
-![dojo gif](https://media2.giphy.com/media/GbICzVGyMNqP6/giphy.gif)
+![dojo gif](https://media1.giphy.com/media/3w0IKvduHjGy4/giphy.gif)
 
 
 Dojo 1

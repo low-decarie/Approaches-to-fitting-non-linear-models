@@ -5,7 +5,7 @@ date: 13 July 2018
 width: 1280
 height: 800
 
-Gettint to know each other
+Getting to know each other
 ===
 
 
@@ -21,6 +21,7 @@ Workshop
   - I am one of your peers... correct me when I am wrong.
 - Post its
 - Challenges
+-All material on github.com/low-decarie
 
 ![me doing non-linear fitting](https://media0.giphy.com/media/znoGDO6Ykro9a/200w.gif)
 

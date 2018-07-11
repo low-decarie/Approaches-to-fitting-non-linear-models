@@ -1,3 +1,16 @@
+<style>
+.reveal h1, .reveal h2, .reveal h3 {
+  word-wrap: normal;
+  -moz-hyphens: none;
+}
+</style>
+
+<style>
+.small-code pre code {
+  font-size: 1em;
+}
+</style>
+
 Approaches to fitting non-linear models
 ===
 author: Etienne Low-Décarie
@@ -191,7 +204,8 @@ Convoluted (many parameters) : Fourier
 ```r
 x <- 1:100
 conv2_data = data.frame(x=x,
-                        y=1 * cos(x + 2) + (3 * cos(2*x + 4) + 5))
+                        y=1 * cos(x + 2) +
+                          (3 * cos(2*x + 4) + 5))
 ```
 
 ***
@@ -761,7 +775,7 @@ treatmentB$treatment <- "B"
 experiment <- rbind(treatmentA,treatmentB)
 ```
 
-Extracting data from your model the ,<\b>tidy<\b> way
+Extracting data from your model the tidy way
 ===
 
 
@@ -867,6 +881,7 @@ lines(logistic_growth_data$x,
 
 Mle (less manual)
 ===
+class: small-code
 
 Output a model object 
 -mle  
@@ -908,6 +923,12 @@ Algorithms
   - nlminb [PORT]
   - constrOptim
   - optimx{optimx}
+
+Additional tools
+===
+
+- `nlstools`
+-  `broom`
 
 Expansions
 ===
